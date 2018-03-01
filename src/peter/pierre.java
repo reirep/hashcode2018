@@ -12,6 +12,8 @@ import java.util.Scanner;
  */
 public class pierre {
 
+    public static int jump = 0;
+
     public static class Point {
 
         final int x, y;
@@ -92,6 +94,7 @@ public class pierre {
                     bestRide = getBestRide(possibleRide, currentStep);
 
                     if (bestRide==null){// on cherche recursivement dans les voisins
+                        jump = 0;
                         Point point=bfs(new Point(currentVehic.x,currentVehic.y),rideGrid);
                         if (point != null) {
                             bestRide = getBestRide(rideGrid[point.x][point.y], currentStep);
@@ -134,18 +137,20 @@ public class pierre {
         if(x-1>=0) {
             neighbor.add(new Point(x-1,y));
         }
-        if (x+1<grid.length) {
+        if (x+1<4000) {
             neighbor.add(new Point(x+1,y));
         }
         if(y-1>=0) {
             neighbor.add(new Point(x,y-1));
         }
-        if (y+1<grid[0].length) {
+        if (y+1<4000) {
             neighbor.add(new Point(x,y+1));
         }
         return  neighbor;
     }
     private static  Point bfs(Point s,  ArrayList<Ride>[][] grid  ){
+        if(jump > 50)
+            return null;
         Queue<Point> queue = new LinkedList<>();
         boolean[][] marked=new boolean[grid.length][grid[0].length];
         queue.add(s); // and put it on the queue.
@@ -178,7 +183,7 @@ public class pierre {
             if(bestRide.start > currentRide.start)
                 bestRide=currentRide;
 
-            if(bestRide.sizeRide()> currentRide.sizeRide())
+            if(bestRide.sizeRide()< currentRide.sizeRide())
                 bestRide= currentRide;
 
         }
