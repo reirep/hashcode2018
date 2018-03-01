@@ -64,28 +64,32 @@ public class pierre {
 
         //end input
 
-        // initialisation matrice corespondant à la ville
-        for (int i=0; i< row;i++){
-            for (int j = 0; j< col; j++){
-                rideGrid[i][j]= new ArrayList<Ride>();
-            }
-        }
         // on remplis la matrice avec les ride
+        System.out.println("Started pre");
         for (int i=0; i< ride; i++) {
 
             Ride temp=rides.get(i);
+            if(rideGrid[temp.startX][temp.startY] == null)
+                rideGrid[temp.startX][temp.startY] = new ArrayList<>();
             rideGrid[temp.startX][temp.startY].add(temp);
 
         }
-        for(int currentStep=0; currentStep< steps; currentStep++) {
+        System.out.println("Ended pre");
+        out: for(int currentStep=0; currentStep< steps; currentStep++) {
             for ( int i=0; i< vehic; i++){
+                System.out.print("\r"+ride);
+                if(ride == 0)
+                    break out;
 
                 Vehicle currentVehic= vehicles.get(i);
 
                 if (currentStep == currentVehic.nextStepAvailable()) {
-
-                    ArrayList<Ride> possibleRide = rideGrid[currentVehic.x][currentVehic.y];
-                    Ride bestRide = getBestRide(possibleRide, currentStep);
+                    Ride bestRide= null;
+                    ArrayList<Ride> possibleRide = null;
+                    if(rideGrid[currentVehic.x][currentVehic.y] != null){
+                        possibleRide = rideGrid[currentVehic.x][currentVehic.y];
+                    }
+                    bestRide = getBestRide(possibleRide, currentStep);
 
                     if (bestRide==null){// on cherche recursivement dans les voisins
                         Point point=bfs(new Point(currentVehic.x,currentVehic.y),rideGrid);
@@ -96,6 +100,7 @@ public class pierre {
                     }
 
                     if (bestRide!= null) {
+                        ride--;
                         possibleRide.remove(bestRide);
 
                         currentVehic.takenRide.add(bestRide);
@@ -152,7 +157,8 @@ public class pierre {
 
             for (Point w : adj(grid,v.x,v.y)) {
                 if(!marked[w.x][w.y]) {
-                    if (grid[w.x][w.y].size() > 0) return w;
+                    if(grid[w.x][w.y] != null)
+                        if (grid[w.x][w.y].size() > 0) return w;
                     queue.add(w);
                     marked[w.x][w.y]=true;
                 }
@@ -162,7 +168,7 @@ public class pierre {
     }
 
     public  static Ride getBestRide(ArrayList<Ride> rides, int currentStep){
-        if(rides.size()<1)
+        if(rides == null || rides.size()<1)
             return null;
 
         Ride bestRide= rides.get(0);
