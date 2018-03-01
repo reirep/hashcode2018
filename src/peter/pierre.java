@@ -1,7 +1,6 @@
 package peter;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -34,11 +33,23 @@ public class pierre {
         s.nextLine();
 
         for(int i = 0; i < vehic; i++)
-            vehicles.add(new Vehicle());
+            vehicles.add(new Vehicle(i+1));
 
         for(int i = 0; i < ride; i++)
             rides.add(new Ride(i+1, s.nextLine()));
 
+        //end input
 
+        //SOLVE HERE
+
+
+        //output
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(inFile+".out"));
+            for(Vehicle v : vehicles)
+                bw.write(v.getLine());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
