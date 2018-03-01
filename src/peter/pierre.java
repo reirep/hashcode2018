@@ -29,9 +29,15 @@ public class pierre {
 
 
         LinkedList<Ride> rides = new LinkedList<>();
-        s.nextLine();
-        System.out.println(s.nextLine());
+        LinkedList<Vehicle> vehicles = new LinkedList<>();
 
+        s.nextLine();
+
+        for(int i = 0; i < vehic; i++)
+            vehicles.add(new Vehicle());
+
+        for(int i = 0; i < ride; i++)
+            rides.add(new Ride(i+1, s.nextLine()));
 
 
     }

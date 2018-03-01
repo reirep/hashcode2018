@@ -4,10 +4,11 @@ package peter;
  * Created by the awesome pierre on 1/03/18
  */
 public class Ride {
-    int startX, startY, endX, endY, start, end;
+    int startX, startY, endX, endY, start, end, nbr;
 
-    public Ride(String s){
+    public Ride(int nbr, String s){
         int [] args = Utils.toInt(s.split(" "));
+        this.nbr = nbr;
         startX = args[0];
         startY = args[1];
         endX = args[2];
