@@ -22,9 +22,9 @@ public class Vehicle {
     }
 
     public String getLine(){
-        String res = ""+nbr;
+        String res = ""+takenRide.size();
         for (Ride r : takenRide)
-            res += ""+r.nbr;
+            res += " "+r.nbr;
         res+="\n";
         return res;
     }
